@@ -12,31 +12,31 @@ O projeto foi desenvolvido como parte do desafio acadêmico de desenvolvimento w
 
 ## 🚀 Funcionalidades
 
-* 📷 Seleção e registro de imagens
-* 🔎 Modo de foco para visualização da imagem
-* ⏰ Criação de lembretes
-* 🔁 Repetição de lembretes por dias da semana
-* 🔔 Alertas de lembretes
-* 📁 Organização dos registros em pastas
-* 🗑️ Exclusão de lembretes e pastas
-* 🖼️ Galeria de imagens
-* 📝 Reconhecimento de texto presente nas imagens utilizando OCR
-* 💾 Armazenamento dos registros utilizando `localStorage`
-* 📱 Interface responsiva
+- 📷 Seleção e registro de imagens
+- 🔎 Modo de foco para visualização da imagem
+- ⏰ Criação de lembretes
+- 🔁 Repetição de lembretes por dias da semana
+- 🔔 Alertas de lembretes
+- 📁 Organização dos registros em pastas
+- 🗑️ Exclusão de lembretes e pastas
+- 🖼️ Galeria de imagens
+- 📝 Reconhecimento de texto presente nas imagens utilizando OCR
+- 💾 Armazenamento dos registros utilizando `localStorage`
+- 📱 Interface responsiva
 
 ---
 
 ## 🛠️ Tecnologias utilizadas
 
-* **React**
-* **JavaScript**
-* **HTML5**
-* **CSS3**
-* **Vite**
-* **Tesseract.js**
-* **LocalStorage**
-* **Git e GitHub**
-* **Vercel**
+- **React**
+- **JavaScript**
+- **HTML5**
+- **CSS3**
+- **Vite**
+- **Tesseract.js**
+- **LocalStorage**
+- **Git e GitHub**
+- **Vercel**
 
 ---
 
@@ -84,6 +84,8 @@ Portanto, não são necessários usuários ou senhas para realizar os testes.
 
 ## 🤖 Utilização de Inteligência Artificial
 
+Durante o desenvolvimento do projeto, a Inteligência Artificial foi utilizada como ferramenta de apoio para auxiliar na resolução de dúvidas de programação, identificação e correção de erros, organização do código e implementação de algumas funcionalidades. A IA também foi utilizada como apoio na documentação do projeto e na compreensão das tecnologias utilizadas. Todo o código foi analisado, adaptado e testado pela equipe antes de ser utilizado na aplicação.
+
 O projeto possui a funcionalidade denominada **Assistente Jovi**, responsável pelo reconhecimento de textos presentes nas imagens.
 
 Para essa funcionalidade foi utilizado o **Tesseract.js**, uma biblioteca de OCR (Optical Character Recognition), que permite identificar e extrair textos presentes em imagens diretamente na aplicação.
@@ -100,11 +102,11 @@ Os registros criados pelo usuário são armazenados utilizando o **LocalStorage 
 
 Isso permite que informações como:
 
-* imagens;
-* lembretes;
-* datas;
-* horários;
-* pastas;
+- imagens;
+- lembretes;
+- datas;
+- horários;
+- pastas;
 
 permaneçam disponíveis após atualizar a página no mesmo navegador.
 
@@ -114,11 +116,11 @@ permaneçam disponíveis após atualizar a página no mesmo navegador.
 
 ### Vercel
 
-> **Link do Deploy:** COLOCAR_LINK_DA_VERCEL_AQUI
+> **Link do Deploy:** https://jovi-camera-sprint3.vercel.app/
 
 ### GitHub
 
-> **Link do Repositório:** COLOCAR_LINK_DO_GITHUB_AQUI
+> **Link do Repositório:** https://github.com/guis07/Sprint3.git
 
 ---
 
@@ -163,6 +165,13 @@ Os nomes completos e RMs dos integrantes estão disponíveis no arquivo:
 
 ```text
 INTEGRANTES.TXT
+
+Integrantes 
+Sofia Costa – RM: 570339
+Sophia Trindade – RM: 570349
+Gabriela Gomes – RM: 568797
+Guilherme Correia – RM: 570551
+Gabriell Santos – RM: 574134
 ```
 
 Esse arquivo faz parte da entrega do projeto.
@@ -171,9 +180,9 @@ Esse arquivo faz parte da entrega do projeto.
 
 ## 📋 Requisitos para execução
 
-* Node.js instalado
-* Navegador atualizado
-* Conexão com a internet para instalação das dependências
+- Node.js instalado
+- Navegador atualizado
+- Conexão com a internet para instalação das dependências
 
 Não é necessário configurar uma chave de API para executar a versão final do projeto.
 
