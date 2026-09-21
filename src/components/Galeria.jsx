@@ -1,5 +1,6 @@
 import { useState } from "react";
 import LeitorTexto from "./LeitorTexto";
+import { gerarResumo } from "../services/api";
 
 function Galeria({ alarmes }) {
   const [imagemSelecionada, setImagemSelecionada] =
@@ -9,6 +10,14 @@ function Galeria({ alarmes }) {
     useState(null);
 
   const [textoExtraido, setTextoExtraido] =
+    useState("");
+
+  const [resumo, setResumo] = useState("");
+
+  const [carregandoResumo, setCarregandoResumo] =
+    useState(false);
+
+  const [erroResumo, setErroResumo] =
     useState("");
 
   const pastas = [
@@ -30,13 +39,45 @@ function Galeria({ alarmes }) {
   function abrirImagem(alarme) {
     setImagemSelecionada(alarme);
 
-    // Limpa o texto anterior ao abrir outra imagem
+    // Limpa os dados anteriores ao abrir outra imagem
     setTextoExtraido("");
+    setResumo("");
+    setErroResumo("");
   }
 
   function fecharImagem() {
     setImagemSelecionada(null);
     setTextoExtraido("");
+    setResumo("");
+    setErroResumo("");
+  }
+
+  async function gerarResumoIA() {
+    if (!textoExtraido.trim()) {
+      setErroResumo(
+        "Primeiro extraia o texto da imagem."
+      );
+      return;
+    }
+
+    try {
+      setCarregandoResumo(true);
+      setErroResumo("");
+      setResumo("");
+
+      const resultado =
+        await gerarResumo(textoExtraido);
+
+      setResumo(resultado);
+    } catch (erro) {
+      console.error(erro);
+
+      setErroResumo(
+        "Não foi possível gerar o resumo."
+      );
+    } finally {
+      setCarregandoResumo(false);
+    }
   }
 
   function abrirPasta(pasta) {
@@ -410,13 +451,15 @@ function Galeria({ alarmes }) {
 
             <div className="ai-actions">
 
-              {/* BOTÃO SEM FUNCIONALIDADE */}
-
               <button
                 className="ai-main-button"
                 type="button"
+                onClick={gerarResumoIA}
+                disabled={carregandoResumo}
               >
-                ⭐ Gerar resumo
+                {carregandoResumo
+                  ? "⏳ Gerando resumo..."
+                  : "⭐ Gerar resumo"}
               </button>
 
               <button
@@ -427,6 +470,28 @@ function Galeria({ alarmes }) {
               </button>
 
             </div>
+
+            {/* ERRO DA API */}
+
+            {erroResumo && (
+              <p className="ai-error">
+                {erroResumo}
+              </p>
+            )}
+
+            {/* RESULTADO DA IA */}
+
+            {resumo && (
+              <div className="ai-result">
+                <h3>
+                  🤖 Resumo gerado pela IA
+                </h3>
+
+                <p>
+                  {resumo}
+                </p>
+              </div>
+            )}
 
           </div>
 

@@ -20,6 +20,10 @@ button {
   cursor: pointer;
 }
 
+/* =========================
+   HEADER
+========================= */
+
 .header {
   width: 100%;
   background: #ffffff;
@@ -64,6 +68,28 @@ button {
   color: #7b8794;
 }
 
+/* Navegação */
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-nav a {
+  color: #17202a;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.header-nav a:hover {
+  color: #2563eb;
+}
+
+/* Status */
+
 .header-status {
   display: flex;
   align-items: center;
@@ -82,11 +108,35 @@ button {
   background: #28a745;
 }
 
+/* Botão Sair */
+
+.header-status button {
+  border: none;
+  background: transparent;
+  color: #566573;
+  font-size: 13px;
+  padding: 0;
+  margin-left: 4px;
+  cursor: pointer;
+}
+
+.header-status button:hover {
+  color: #b42318;
+}
+
+/* =========================
+   MAIN
+========================= */
+
 main {
   max-width: 1100px;
   margin: 0 auto;
   padding: 35px 25px;
 }
+
+/* =========================
+   SCAN
+========================= */
 
 .scan-section {
   background: white;
@@ -134,6 +184,10 @@ main {
   font-size: 25px;
 }
 
+/* =========================
+   CAMERA UPLOAD
+========================= */
+
 .camera-upload {
   min-height: 260px;
   border: 2px dashed #cfd5da;
@@ -169,6 +223,10 @@ main {
 .camera-upload input {
   display: none;
 }
+
+/* =========================
+   PREVIEW
+========================= */
 
 .preview-container {
   display: flex;
@@ -253,34 +311,9 @@ main {
   margin-bottom: 5px;
 }
 
-@media (max-width: 600px) {
-  .header-content {
-    padding: 15px;
-  }
-
-  .header-status {
-    display: none;
-  }
-
-  main {
-    padding: 20px 12px;
-  }
-
-  .scan-section {
-    padding: 20px;
-    border-radius: 16px;
-  }
-
-  .scan-header h2 {
-    font-size: 24px;
-  }
-
-  .scan-icon {
-    width: 45px;
-    height: 45px;
-    font-size: 20px;
-  }
-}
+/* =========================
+   ALARME FORM
+========================= */
 
 .alarme-form {
   width: 100%;
@@ -320,6 +353,10 @@ main {
   background: white;
   font-size: 22px;
 }
+
+/* =========================
+   FORMULÁRIOS
+========================= */
 
 .form-group {
   margin-bottom: 18px;
@@ -387,6 +424,10 @@ main {
   cursor: pointer;
 }
 
+/* =========================
+   DIAS
+========================= */
+
 .days-container {
   margin-top: 10px;
   padding: 15px;
@@ -428,6 +469,10 @@ main {
   border-color: #17202a;
   color: white;
 }
+
+/* =========================
+   PASTAS
+========================= */
 
 .folder-container {
   margin-top: 10px;
@@ -476,6 +521,10 @@ main {
   font-weight: bold;
 }
 
+/* =========================
+   BOTÕES DE ALARME
+========================= */
+
 .alarm-actions {
   margin-top: 25px;
 }
@@ -514,20 +563,9 @@ main {
   background: #dadddf;
 }
 
-@media (max-width: 600px) {
-  .alarme-form {
-    padding: 18px;
-  }
-
-  .form-row {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-
-  .folder-options {
-    grid-template-columns: 1fr;
-  }
-}
+/* =========================
+   GALERIA
+========================= */
 
 .gallery-section {
   background: white;
@@ -626,6 +664,10 @@ main {
   color: #7b8794;
 }
 
+/* =========================
+   GALERIA GRID
+========================= */
+
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(
@@ -716,6 +758,10 @@ main {
   font-size: 11px;
 }
 
+/* =========================
+   IA
+========================= */
+
 .ai-button {
   width: 100%;
   margin-top: 13px;
@@ -732,6 +778,73 @@ main {
 .ai-button:hover {
   background: #2d3a46;
 }
+
+.ai-area {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 12px;
+  background: #f7f8fa;
+}
+
+.ai-icon {
+  font-size: 25px;
+}
+
+.ai-area h3 {
+  margin-bottom: 5px;
+}
+
+.ai-area p {
+  color: #6b7785;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.ai-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.ai-main-button,
+.ai-secondary-button {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.ai-main-button {
+  background: #17202a;
+  color: white;
+}
+
+.ai-main-button:hover {
+  background: #2d3a46;
+}
+
+.ai-secondary-button {
+  background: #e7e9eb;
+  color: #34404c;
+}
+
+.ai-secondary-button:hover {
+  background: #dadddf;
+}
+
+.ai-main-button:disabled,
+.ai-secondary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* =========================
+   GALERIA VAZIA
+========================= */
 
 .empty-gallery {
   padding: 60px 20px;
@@ -753,6 +866,10 @@ main {
   color: #7b8794;
   font-size: 14px;
 }
+
+/* =========================
+   MODAIS
+========================= */
 
 .overlay {
   position: fixed;
@@ -830,98 +947,9 @@ main {
   font-size: 12px;
 }
 
-.ai-area {
-  display: flex;
-  gap: 12px;
-  margin-top: 20px;
-  padding: 15px;
-  border-radius: 12px;
-  background: #f7f8fa;
-}
-
-.ai-icon {
-  font-size: 25px;
-}
-
-.ai-area h3 {
-  margin-bottom: 5px;
-}
-
-.ai-area p {
-  color: #6b7785;
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-.ai-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.ai-main-button,
-.ai-secondary-button {
-  padding: 12px;
-  border: none;
-  border-radius: 10px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.ai-main-button {
-  background: #17202a;
-  color: white;
-}
-
-.ai-main-button:hover {
-  background: #2d3a46;
-}
-
-.ai-secondary-button {
-  background: #e7e9eb;
-  color: #34404c;
-}
-
-.ai-secondary-button:hover {
-  background: #dadddf;
-}
-
-.ai-main-button:disabled,
-.ai-secondary-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-@media (max-width: 600px) {
-  .gallery-section {
-    padding: 20px;
-  }
-
-  .gallery-header {
-    align-items: center;
-  }
-
-  .gallery-header h2 {
-    font-size: 24px;
-  }
-
-  .gallery-count {
-    min-width: 60px;
-  }
-
-  .gallery-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .folders-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .ai-actions {
-    grid-template-columns: 1fr;
-  }
-}
+/* =========================
+   LEITOR DE TEXTO
+========================= */
 
 .text-reader {
   margin-top: 20px;
@@ -1044,6 +1072,10 @@ main {
   text-align: left;
 }
 
+/* =========================
+   DELETE
+========================= */
+
 .delete-button {
   width: 100%;
   margin-top: 8px;
@@ -1093,6 +1125,10 @@ main {
   text-align: left;
   cursor: pointer;
 }
+
+/* =========================
+   ALERTA DO ALARME
+========================= */
 
 .alarm-overlay {
   position: fixed;
@@ -1167,6 +1203,10 @@ main {
   opacity: 0.85;
 }
 
+/* =========================
+   ANIMAÇÃO
+========================= */
+
 @keyframes alarmAppear {
   from {
     opacity: 0;
@@ -1178,6 +1218,10 @@ main {
     transform: scale(1);
   }
 }
+
+/* =========================
+   RESULTADO IA
+========================= */
 
 .ai-result {
   margin-top: 24px;
@@ -1218,4 +1262,108 @@ main {
 
 .review-section li:last-child {
   margin-bottom: 0;
+}
+
+/* =========================
+   RESPONSIVIDADE
+========================= */
+
+@media (max-width: 600px) {
+
+  .header-content {
+    padding: 15px;
+    gap: 10px;
+  }
+
+  .logo-icon {
+    width: 38px;
+    height: 38px;
+    font-size: 20px;
+  }
+
+  .logo h1 {
+    font-size: 18px;
+  }
+
+  .logo p {
+    font-size: 11px;
+  }
+
+  .header-nav {
+    gap: 10px;
+  }
+
+  .header-nav a {
+    font-size: 12px;
+  }
+
+  .header-status {
+    display: flex;
+    padding: 6px 9px;
+    font-size: 11px;
+  }
+
+  .header-status button {
+    font-size: 11px;
+  }
+
+  main {
+    padding: 20px 12px;
+  }
+
+  .scan-section {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .scan-header h2 {
+    font-size: 24px;
+  }
+
+  .scan-icon {
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+  }
+
+  .alarme-form {
+    padding: 18px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .folder-options {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-section {
+    padding: 20px;
+  }
+
+  .gallery-header {
+    align-items: center;
+  }
+
+  .gallery-header h2 {
+    font-size: 24px;
+  }
+
+  .gallery-count {
+    min-width: 60px;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .folders-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-actions {
+    grid-template-columns: 1fr;
+  }
 }

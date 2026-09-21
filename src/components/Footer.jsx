@@ -1,7 +1,7 @@
 function Footer() {
   return (
     <footer>
-      <p>Scan</p>
+      <p>Jovi Camera</p>
     </footer>
   );
 }
