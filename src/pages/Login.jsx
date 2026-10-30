@@ -1,24 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { entrar } from "../services/auth";
 
 function Login() {
   const [usuario, setUsuario] = useState("");
   const [senha, setSenha] = useState("");
-
   const navigate = useNavigate();
 
-  function entrar(e) {
-    e.preventDefault();
+  function enviar(event) {
+    event.preventDefault();
 
-    if (
-      usuario === "jovi" &&
-      senha === "1234"
-    ) {
-      localStorage.setItem(
-        "usuarioLogado",
-        "true"
-      );
-
+    if (entrar(usuario, senha)) {
       navigate("/camera");
     } else {
       alert("Usuário ou senha incorretos.");
@@ -29,30 +21,22 @@ function Login() {
     <main>
       <h2>Login JOVI</h2>
 
-      <form onSubmit={entrar}>
-
+      <form onSubmit={enviar}>
         <input
           type="text"
           placeholder="Usuário"
           value={usuario}
-          onChange={(e) =>
-            setUsuario(e.target.value)
-          }
+          onChange={(event) => setUsuario(event.target.value)}
         />
 
         <input
           type="password"
           placeholder="Senha"
           value={senha}
-          onChange={(e) =>
-            setSenha(e.target.value)
-          }
+          onChange={(event) => setSenha(event.target.value)}
         />
 
-        <button type="submit">
-          Entrar
-        </button>
-
+        <button type="submit">Entrar</button>
       </form>
     </main>
   );

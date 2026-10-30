@@ -1,156 +1,311 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import AlarmeForm from "./AlarmeForm";
+import { redimensionarImagem } from "../services/imagem";
 
-function Camera({ onAdicionarAlarme, pastas }) {
+function Camera({ onAdicionarAlarme, pastas = [] }) {
+  const inputRef = useRef(null);
+
   const [foto, setFoto] = useState(null);
-  const [fotoBase64, setFotoBase64] = useState(null);
-  const [focoHabilitado, setFocoHabilitado] = useState(false);
+  const [foco, setFoco] = useState(false);
+  const [mostrarBotaoFoco, setMostrarBotaoFoco] = useState(false);
   const [mostrarAlarme, setMostrarAlarme] = useState(false);
+  const [alarmeCriado, setAlarmeCriado] = useState(false);
+  const [mostrarGaleria, setMostrarGaleria] = useState(false);
+  const [zoom, setZoom] = useState(1);
+  const [flash, setFlash] = useState(false);
+  const [timer, setTimer] = useState(false);
+  const [configuracoes, setConfiguracoes] = useState(false);
 
-  function selecionarFoto(event) {
+  function reiniciarEtapas() {
+    setFoco(false);
+    setMostrarBotaoFoco(false);
+    setMostrarAlarme(false);
+    setAlarmeCriado(false);
+    setMostrarGaleria(false);
+  }
+
+  async function selecionarFoto(event) {
     const arquivo = event.target.files[0];
+    event.target.value = "";
 
-    if (arquivo) {
-      const imagem = URL.createObjectURL(arquivo);
+    if (!arquivo) return;
 
-      setFoto(imagem);
-      setFocoHabilitado(false);
-      setMostrarAlarme(false);
-
-      const leitor = new FileReader();
-
-      leitor.onloadend = () => {
-        setFotoBase64(leitor.result);
-      };
-
-      leitor.readAsDataURL(arquivo);
+    try {
+      setFoto(await redimensionarImagem(arquivo));
+      reiniciarEtapas();
+    } catch {
+      alert("Não foi possível abrir essa imagem.");
     }
   }
 
-  function habilitarFoco() {
-    setFocoHabilitado(true);
+  function clicarEscanear() {
+    if (!foto) {
+      inputRef.current.click();
+    } else if (!foco) {
+      setMostrarBotaoFoco(true);
+    }
+  }
+
+  function voltarCamera() {
+    setFoto(null);
+    reiniciarEtapas();
   }
 
   function criarAlarme(novoAlarme) {
     onAdicionarAlarme({
       ...novoAlarme,
-      foto: fotoBase64,
-      focoHabilitado: focoHabilitado
+      foto,
+      focoHabilitado: foco
     });
 
     setMostrarAlarme(false);
-  }
-
-  function cancelarAlarme() {
-    setMostrarAlarme(false);
+    setAlarmeCriado(true);
   }
 
   return (
-    <section className="scan-section">
+    <section
+      className={`camera-app ${
+        mostrarGaleria ? "galeria-aberta" : ""
+      }`}
+    >
+      {!mostrarGaleria && (
+        <>
+          <div className="camera-topo">
+            <button
+              type="button"
+              onClick={() => setFlash(!flash)}
+              className={flash ? "topo-ativo" : ""}
+              title="Flash"
+            >
+              ⚡
+            </button>
 
-      <div className="scan-header">
-        <div>
-          <span className="section-label">JOVI CAMERA</span>
+            <button
+              type="button"
+              onClick={() => setTimer(!timer)}
+              className={timer ? "topo-ativo" : ""}
+              title="Timer"
+            >
+              ◷
+            </button>
 
-          <h2>Modo Scan</h2>
+            <span className="camera-nome">JOVI</span>
 
-          <p>
-            Registre uma imagem e transforme informações
-            importantes em conteúdo organizado.
-          </p>
-        </div>
-
-        <div className="scan-icon">
-          📷
-        </div>
-      </div>
-
-      {!foto && (
-        <label className="camera-upload">
-          <div className="camera-upload-icon">
-            📸
+            <button
+              type="button"
+              onClick={() => setConfiguracoes(!configuracoes)}
+              className={configuracoes ? "topo-ativo" : ""}
+              title="Configurações"
+            >
+              ⚙
+            </button>
           </div>
 
-          <strong>Adicionar uma imagem</strong>
+          {configuracoes && (
+            <div className="camera-config">
+              <strong>Configurações da câmera</strong>
+              <p>Modo Scan</p>
+              <p>Zoom: {zoom}x</p>
 
-          <span>
-            Tire uma foto ou selecione uma imagem
-          </span>
+              <button
+                type="button"
+                onClick={() => setConfiguracoes(false)}
+              >
+                Fechar
+              </button>
+            </div>
+          )}
 
-          <input
-            type="file"
-            accept="image/*"
-            capture="environment"
-            onChange={selecionarFoto}
-          />
-        </label>
-      )}
+          <div className="camera-visor">
+            {foto ? (
+              <img
+                src={foto}
+                alt="Imagem selecionada"
+                className="camera-imagem"
+                style={{ transform: `scale(${zoom})` }}
+              />
+            ) : (
+              <div className="camera-vazia">
+                <span>JOVI CAMERA</span>
+                <p>Toque no botão para escolher uma imagem</p>
+              </div>
+            )}
 
-      {foto && (
-        <div className="preview-container">
+            <div className="camera-sombra"></div>
 
-          <div className="image-preview">
+            <div className="scan-corners corner-top-left"></div>
+            <div className="scan-corners corner-top-right"></div>
+            <div className="scan-corners corner-bottom-left"></div>
+            <div className="scan-corners corner-bottom-right"></div>
 
-            <img
-              src={foto}
-              alt="Imagem registrada no Modo Scan"
-              className={
-                focoHabilitado
-                  ? "scan-image focus-active"
-                  : "scan-image"
-              }
-            />
+            {timer && (
+              <div className="camera-aviso">
+                <span>◷</span> Timer ativado
+              </div>
+            )}
 
-            {focoHabilitado && (
-              <div className="focus-badge">
+            {foco && !alarmeCriado && (
+              <div className="camera-foco">
                 ✓ Foco habilitado
               </div>
             )}
 
-          </div>
+            {alarmeCriado && (
+              <div className="camera-foco">
+                ✓ Alarme criado!
+              </div>
+            )}
 
-          {!focoHabilitado && (
-            <button
-              className="focus-button"
-              onClick={habilitarFoco}
-            >
-              🔎 Habilitar Foco
-            </button>
-          )}
+            {foto && mostrarBotaoFoco && !foco && (
+              <button
+                type="button"
+                className="camera-foco-botao"
+                onClick={() => setFoco(true)}
+              >
+                ◉ Habilitar foco
+              </button>
+            )}
 
-          {focoHabilitado && (
-            <div className="alarm-area">
+            {foto && foco && !mostrarAlarme && !alarmeCriado && (
+              <button
+                type="button"
+                className="camera-alarme-botao"
+                onClick={() => setMostrarAlarme(true)}
+              >
+                ⏰ Criar alarme
+              </button>
+            )}
 
-              {!mostrarAlarme && (
-                <>
-                  <p className="focus-message">
-                    A imagem está pronta. Agora você pode
-                    criar um lembrete para ela.
-                  </p>
-
-                  <button
-                    className="alarm-button"
-                    onClick={() => setMostrarAlarme(true)}
-                  >
-                    ⏰ Criar Alarme
-                  </button>
-                </>
-              )}
-
-              {mostrarAlarme && (
+            {mostrarAlarme && (
+              <div className="camera-formulario">
                 <AlarmeForm
                   onCriarAlarme={criarAlarme}
-                  onCancelar={cancelarAlarme}
+                  onCancelar={() => setMostrarAlarme(false)}
                   pastas={pastas}
                 />
-              )}
+              </div>
+            )}
+          </div>
 
+          <div className="camera-controles">
+            <div className="camera-zoom">
+              {[0.5, 1, 2].map((valor) => (
+                <button
+                  key={valor}
+                  type="button"
+                  className={
+                    zoom === valor ? "zoom-selecionado" : ""
+                  }
+                  onClick={() => setZoom(valor)}
+                >
+                  {valor}x
+                </button>
+              ))}
             </div>
-          )}
 
-        </div>
+            <div className="camera-modos">
+              <span>FOTO</span>
+              <strong>SCAN</strong>
+              <span>VÍDEO</span>
+            </div>
+
+            <div className="camera-botoes">
+              <button
+                type="button"
+                className="camera-galeria"
+                onClick={() => setMostrarGaleria(true)}
+                aria-label="Abrir galeria"
+              >
+                {foto ? (
+                  <img src={foto} alt="Última foto" />
+                ) : (
+                  "▧"
+                )}
+              </button>
+
+              <button
+                type="button"
+                className="camera-disparador"
+                onClick={clicarEscanear}
+                aria-label="Escanear imagem"
+              />
+
+              <button
+                type="button"
+                className="camera-voltar"
+                onClick={voltarCamera}
+                aria-label="Voltar à câmera"
+              >
+                ↻
+              </button>
+
+              <input
+                ref={inputRef}
+                type="file"
+                accept="image/*"
+                onChange={selecionarFoto}
+                hidden
+              />
+            </div>
+          </div>
+        </>
       )}
 
+      {mostrarGaleria && (
+        <div className="camera-galeria-tela">
+          <div className="galeria-topo">
+            <button
+              type="button"
+              onClick={() => setMostrarGaleria(false)}
+              aria-label="Voltar à câmera"
+            >
+              ←
+            </button>
+
+            <h2>Galeria</h2>
+          </div>
+
+          <h3>Pastas</h3>
+
+          <div className="galeria-pastas">
+            {pastas.map((pasta) => (
+              <div className="galeria-pasta" key={pasta}>
+                <div className="galeria-pasta-capa">
+                  <span>▤</span>
+                </div>
+
+                <p>{pasta}</p>
+              </div>
+            ))}
+
+            <div className="galeria-pasta">
+              <div className="galeria-pasta-capa galeria-pasta-escura">
+                <span>▧</span>
+              </div>
+
+              <p>Todas as fotos</p>
+            </div>
+          </div>
+
+          <h3>Fotos</h3>
+
+          <div className="galeria-fotos">
+            {Array.from({ length: 25 }, (_, index) => (
+              <div
+                className={`galeria-foto galeria-foto-${index % 4}`}
+                key={index}
+              >
+                {index === 0 && foto && (
+                  <img
+                    src={foto}
+                    alt="Última foto selecionada"
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   );
 }

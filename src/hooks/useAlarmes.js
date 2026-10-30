@@ -1,175 +1,95 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+const DIAS_SEMANA = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+
+function lerAlarmesSalvos() {
+  try {
+    return JSON.parse(localStorage.getItem("alarmes")) ?? [];
+  } catch {
+    return [];
+  }
+}
+
+function obterAgora() {
+  const agora = new Date();
+  const dois = (numero) => String(numero).padStart(2, "0");
+
+  return {
+    data: `${agora.getFullYear()}-${dois(agora.getMonth() + 1)}-${dois(agora.getDate())}`,
+    horario: `${dois(agora.getHours())}:${dois(agora.getMinutes())}`,
+    dia: DIAS_SEMANA[agora.getDay()],
+  };
+}
+
+function deveDisparar(alarme, agora) {
+  if (alarme.horario !== agora.horario) return false;
+
+  if (alarme.repetir) {
+    return alarme.dias?.includes(agora.dia) ?? false;
+  }
+
+  return alarme.data === agora.data;
+}
 
 function useAlarmes() {
-  const [alarmes, setAlarmes] = useState(() => {
-    const dadosSalvos = localStorage.getItem("alarmes");
-
-    return dadosSalvos
-      ? JSON.parse(dadosSalvos)
-      : [];
-  });
-
+  const [alarmes, setAlarmes] = useState(lerAlarmesSalvos);
   const [alarmeAtivo, setAlarmeAtivo] = useState(null);
+  const jaDisparados = useRef(new Set());
 
-  // Salvar alarmes no localStorage
   useEffect(() => {
-    localStorage.setItem(
-      "alarmes",
-      JSON.stringify(alarmes)
-    );
+    try {
+      localStorage.setItem("alarmes", JSON.stringify(alarmes));
+    } catch (erro) {
+      console.error("Não foi possível salvar os alarmes:", erro);
+    }
   }, [alarmes]);
 
-  // Adicionar um novo alarme
-  function adicionarAlarme(novoAlarme) {
-    const alarmeComId = {
-      id: Date.now(),
-      ...novoAlarme
-    };
-
-    setAlarmes((listaAtual) => [
-      ...listaAtual,
-      alarmeComId
-    ]);
-  }
-
-  // Atualizar um alarme
-  function atualizarAlarme(id, alteracoes) {
-    setAlarmes((listaAtual) =>
-      listaAtual.map((alarme) =>
-        alarme.id === id
-          ? {
-              ...alarme,
-              ...alteracoes
-            }
-          : alarme
-      )
-    );
-  }
-
-  // Descobrir o dia atual
-  function obterDiaDaSemana() {
-    const agora = new Date();
-
-    const dias = [
-      "Domingo",
-      "Segunda",
-      "Terça",
-      "Quarta",
-      "Quinta",
-      "Sexta",
-      "Sábado"
-    ];
-
-    return dias[agora.getDay()];
-  }
-
-  // Verificar se algum alarme deve disparar
   useEffect(() => {
     function verificarAlarmes() {
-      const agora = new Date();
-
-      const dataAtual =
-        agora.getFullYear() +
-        "-" +
-        String(
-          agora.getMonth() + 1
-        ).padStart(2, "0") +
-        "-" +
-        String(
-          agora.getDate()
-        ).padStart(2, "0");
-
-      const horarioAtual =
-        String(
-          agora.getHours()
-        ).padStart(2, "0") +
-        ":" +
-        String(
-          agora.getMinutes()
-        ).padStart(2, "0");
-
-      const diaAtual =
-        obterDiaDaSemana();
+      const agora = obterAgora();
 
       alarmes.forEach((alarme) => {
-        let deveDisparar = false;
+        const chave = `${alarme.id}-${agora.data}-${agora.horario}`;
 
-        // Alarme repetido
-        if (
-          alarme.repetir === true &&
-          Array.isArray(alarme.dias) &&
-          alarme.dias.length > 0
-        ) {
-          if (
-            alarme.dias.includes(diaAtual) &&
-            alarme.horario === horarioAtual
-          ) {
-            deveDisparar = true;
-          }
-        }
-
-        // Alarme normal
-        else if (
-          alarme.repetir !== true &&
-          alarme.data === dataAtual &&
-          alarme.horario === horarioAtual
-        ) {
-          deveDisparar = true;
-        }
-
-        // Disparar alarme
-        if (deveDisparar) {
-          const chaveAlarme =
-            `alarme-executado-${alarme.id}-${dataAtual}-${horarioAtual}`;
-
-          const jaExecutado =
-            localStorage.getItem(chaveAlarme);
-
-          if (!jaExecutado) {
-            setAlarmeAtivo(alarme);
-
-            localStorage.setItem(
-              chaveAlarme,
-              "true"
-            );
-          }
+        if (deveDisparar(alarme, agora) && !jaDisparados.current.has(chave)) {
+          jaDisparados.current.add(chave);
+          setAlarmeAtivo(alarme);
         }
       });
     }
 
     verificarAlarmes();
+    const intervalo = setInterval(verificarAlarmes, 30000);
 
-    const intervalo = setInterval(
-      verificarAlarmes,
-      30000
-    );
-
-    return () => {
-      clearInterval(intervalo);
-    };
+    return () => clearInterval(intervalo);
   }, [alarmes]);
 
-  // Fechar o alerta do alarme
+  function adicionarAlarme(novoAlarme) {
+    setAlarmes((lista) => [...lista, { id: Date.now(), ...novoAlarme }]);
+  }
+
+  function excluirAlarme(id) {
+    setAlarmes((lista) => lista.filter((alarme) => alarme.id !== id));
+  }
+
+  function excluirPasta(nomePasta) {
+    setAlarmes((lista) => lista.filter((alarme) => alarme.pasta !== nomePasta));
+  }
+
   function fecharAlarme() {
     setAlarmeAtivo(null);
   }
 
-  // Criar lista de pastas
-  const pastas = [
-    ...new Set(
-      alarmes
-        .map((alarme) => alarme.pasta)
-        .filter((pasta) => pasta)
-    )
-  ];
+  const pastas = [...new Set(alarmes.map((alarme) => alarme.pasta).filter(Boolean))];
 
   return {
     alarmes,
     alarmeAtivo,
     pastas,
     adicionarAlarme,
-    atualizarAlarme,
-    fecharAlarme
+    excluirAlarme,
+    excluirPasta,
+    fecharAlarme,
   };
 }
 

@@ -1,21 +1,17 @@
+
 import { useState } from "react";
 
-function AlarmeForm({
-  onCriarAlarme,
-  onCancelar,
-  pastas
-}) {
+function AlarmeForm({ onCriarAlarme, onCancelar, pastas = [] }) {
   const [nome, setNome] = useState("");
   const [data, setData] = useState("");
   const [horario, setHorario] = useState("");
   const [som, setSom] = useState("Som 1");
-
+  const [mostrarSons, setMostrarSons] = useState(false);
   const [repetir, setRepetir] = useState(false);
+  const [mostrarDias, setMostrarDias] = useState(false);
   const [dias, setDias] = useState([]);
-
   const [criarPasta, setCriarPasta] = useState(false);
   const [tipoPasta, setTipoPasta] = useState("nova");
-
   const [nomePasta, setNomePasta] = useState("");
   const [pastaExistente, setPastaExistente] = useState("");
 
@@ -37,17 +33,23 @@ function AlarmeForm({
     }
   }
 
+  function alterarRepeticao(valor) {
+    setRepetir(valor);
+    setMostrarDias(valor);
+
+    if (!valor) {
+      setDias([]);
+    }
+  }
+
   function criarAlarme(event) {
     event.preventDefault();
 
     let pastaSelecionada = null;
 
     if (criarPasta) {
-      if (tipoPasta === "nova") {
-        pastaSelecionada = nomePasta;
-      } else {
-        pastaSelecionada = pastaExistente;
-      }
+      pastaSelecionada =
+        tipoPasta === "nova" ? nomePasta.trim() : pastaExistente;
     }
 
     const novoAlarme = {
@@ -61,315 +63,163 @@ function AlarmeForm({
     };
 
     onCriarAlarme(novoAlarme);
-
-    setNome("");
-    setData("");
-    setHorario("");
-    setSom("Som 1");
-    setRepetir(false);
-    setDias([]);
-    setCriarPasta(false);
-    setTipoPasta("nova");
-    setNomePasta("");
-    setPastaExistente("");
   }
 
   return (
-    <form
-      className="alarme-form"
-      onSubmit={criarAlarme}
-    >
-      <div className="alarm-form-header">
-        <div>
-          <span className="section-label">
-            LEMBRETE
-          </span>
-
-          <h3>Criar Alarme</h3>
-
-          <p>
-            Escolha quando você deseja ser lembrado.
-          </p>
-        </div>
-
-        <div className="alarm-form-icon">
-          ⏰
-        </div>
+    <form className="alarme-form" onSubmit={criarAlarme}>
+      <div className="form-group">
+        <input
+          type="time"
+          value={horario}
+          onChange={(event) => setHorario(event.target.value)}
+          required
+          aria-label="Horário"
+        />
       </div>
 
-      {/* NOME */}
+      <div className="form-group">
+        <input
+          type="date"
+          value={data}
+          onChange={(event) => setData(event.target.value)}
+          required
+          aria-label="Data"
+        />
+      </div>
 
       <div className="form-group">
-        <label>
-          Nome do lembrete
-        </label>
-
         <input
           type="text"
-          placeholder="Ex: Prova de Java"
+          placeholder="Nome do alarme"
           value={nome}
-          onChange={(event) =>
-            setNome(event.target.value)
-          }
+          onChange={(event) => setNome(event.target.value)}
           required
         />
       </div>
 
-      {/* DATA E HORÁRIO */}
-
-      <div className="form-row">
-
-        <div className="form-group">
-          <label>
-            📅 Data
-          </label>
-
-          <input
-            type="date"
-            value={data}
-            onChange={(event) =>
-              setData(event.target.value)
-            }
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>
-            ⏰ Horário
-          </label>
-
-          <input
-            type="time"
-            value={horario}
-            onChange={(event) =>
-              setHorario(event.target.value)
-            }
-            required
-          />
-        </div>
-
-      </div>
-
-      {/* SOM */}
-
       <div className="form-group">
-        <label>
-          🔊 Som do alarme
-        </label>
-
         <select
-          value={som}
+          value={repetir ? "repetir" : "nao"}
           onChange={(event) =>
-            setSom(event.target.value)
+            alterarRepeticao(event.target.value === "repetir")
           }
+          aria-label="Repetição"
         >
-          <option>Sem som</option>
-          <option>Som 1</option>
-          <option>Som 2</option>
-          <option>Som 3</option>
+          <option value="nao">Não repetir</option>
+          <option value="repetir">Repetir</option>
         </select>
       </div>
 
-      {/* REPETIÇÃO */}
-
-      <div className="form-option">
-        <label className="checkbox-label">
-
-          <input
-            type="checkbox"
-            checked={repetir}
-            onChange={(event) =>
-              setRepetir(event.target.checked)
-            }
-          />
-
-          <span>
-            Repetir durante a semana
-          </span>
-
-        </label>
-      </div>
-
-      {repetir && (
+      {mostrarDias && (
         <div className="days-container">
-
-          <p>
-            Escolha os dias:
-          </p>
-
           <div className="days-grid">
-
             {diasSemana.map((dia) => (
-
               <label
-                className={
-                  dias.includes(dia)
-                    ? "day selected"
-                    : "day"
-                }
+                className={dias.includes(dia) ? "day selected" : "day"}
                 key={dia}
               >
-
                 <input
                   type="checkbox"
                   checked={dias.includes(dia)}
-                  onChange={() =>
-                    alterarDia(dia)
-                  }
+                  onChange={() => alterarDia(dia)}
                 />
-
                 {dia}
-
               </label>
-
             ))}
-
           </div>
-
         </div>
       )}
 
-      {/* PASTA */}
-
-      <div className="form-option">
-        <label className="checkbox-label">
-
-          <input
-            type="checkbox"
-            checked={criarPasta}
-            onChange={(event) =>
-              setCriarPasta(event.target.checked)
-            }
-          />
-
-          <span>
-            📁 Organizar em uma pasta
-          </span>
-
-        </label>
+      <div className="form-group">
+        <select
+          value={mostrarSons ? "aberto" : "fechado"}
+          onChange={(event) => {
+            setMostrarSons(event.target.value === "aberto");
+          }}
+          aria-label="Som"
+        >
+          <option value="fechado">{som}</option>
+          <option value="aberto">Escolher som</option>
+        </select>
       </div>
 
-      {criarPasta && (
-
-        <div className="folder-container">
-
-          <p>
-            Onde deseja salvar?
-          </p>
-
-          <div className="folder-options">
-
-            <label
-              className={
-                tipoPasta === "nova"
-                  ? "folder-option active"
-                  : "folder-option"
-              }
-            >
-
-              <input
-                type="radio"
-                value="nova"
-                checked={tipoPasta === "nova"}
-                onChange={() =>
-                  setTipoPasta("nova")
-                }
-              />
-
-              <span>
-                ➕ Nova pasta
-              </span>
-
-            </label>
-
-            {pastas.length > 0 && (
-
-              <label
-                className={
-                  tipoPasta === "existente"
-                    ? "folder-option active"
-                    : "folder-option"
-                }
-              >
-
-                <input
-                  type="radio"
-                  value="existente"
-                  checked={
-                    tipoPasta === "existente"
-                  }
-                  onChange={() =>
-                    setTipoPasta("existente")
-                  }
-                />
-
-                <span>
-                  📁 Pasta existente
-                </span>
-
-              </label>
-
-            )}
-
-          </div>
-
-          {tipoPasta === "nova" && (
-
-            <input
-              type="text"
-              placeholder="Nome da nova pasta"
-              value={nomePasta}
-              onChange={(event) =>
-                setNomePasta(event.target.value)
-              }
-              required
-            />
-
-          )}
-
-          {tipoPasta === "existente" && (
-
-            <select
-              value={pastaExistente}
-              onChange={(event) =>
-                setPastaExistente(event.target.value)
-              }
-              required
-            >
-
-              <option value="">
-                Selecione uma pasta
-              </option>
-
-              {pastas.map((pasta) => (
-
-                <option
-                  key={pasta}
-                  value={pasta}
-                >
-                  {pasta}
-                </option>
-
-              ))}
-
-            </select>
-
-          )}
-
+      {mostrarSons && (
+        <div className="form-group">
+          <select
+            value={som}
+            onChange={(event) => {
+              setSom(event.target.value);
+              setMostrarSons(false);
+            }}
+            aria-label="Escolher som"
+          >
+            <option value="Sem som">Sem som</option>
+            <option value="Som 1">Som 1</option>
+            <option value="Som 2">Som 2</option>
+            <option value="Som 3">Som 3</option>
+          </select>
         </div>
-
       )}
 
-      {/* BOTÕES */}
+      <div className="form-group">
+        <select
+          value={
+            !criarPasta
+              ? "nenhuma"
+              : tipoPasta === "nova"
+                ? "nova"
+                : "existente"
+          }
+          onChange={(event) => {
+            const valor = event.target.value;
+            setCriarPasta(valor !== "nenhuma");
+
+            if (valor === "nova") setTipoPasta("nova");
+            if (valor === "existente") setTipoPasta("existente");
+          }}
+          aria-label="Pasta"
+        >
+          <option value="nenhuma">Sem pasta</option>
+          <option value="nova">Criar nova pasta</option>
+          {pastas.length > 0 && (
+            <option value="existente">Usar pasta existente</option>
+          )}
+        </select>
+      </div>
+
+      {criarPasta && tipoPasta === "nova" && (
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="Nome da pasta"
+            value={nomePasta}
+            onChange={(event) => setNomePasta(event.target.value)}
+            required
+          />
+        </div>
+      )}
+
+      {criarPasta && tipoPasta === "existente" && (
+        <div className="form-group">
+          <select
+            value={pastaExistente}
+            onChange={(event) => setPastaExistente(event.target.value)}
+            required
+            aria-label="Selecionar pasta"
+          >
+            <option value="">Selecionar pasta</option>
+            {pastas.map((pasta) => (
+              <option key={pasta} value={pasta}>
+                {pasta}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
 
       <div className="alarm-actions">
-
-        <button
-          type="submit"
-          className="create-alarm-button"
-        >
-          ⏰ Criar Alarme
+        <button type="submit" className="create-alarm-button">
+          Criar alarme
         </button>
 
         <button
@@ -379,9 +229,7 @@ function AlarmeForm({
         >
           Cancelar
         </button>
-
       </div>
-
     </form>
   );
 }

@@ -1,14 +1,8 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
+import { estaLogado } from "../services/auth";
 
-function PrivateRoute({ children }) {
-  const usuarioLogado =
-    localStorage.getItem("usuarioLogado");
-
-  if (usuarioLogado !== "true") {
-    return <Navigate to="/login" replace />;
-  }
-
-  return children;
+function PrivateRoute() {
+  return estaLogado() ? <Outlet /> : <Navigate to="/login" replace />;
 }
 
 export default PrivateRoute;

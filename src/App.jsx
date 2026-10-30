@@ -1,10 +1,4 @@
-import "./App.css";
-
-import {
-  BrowserRouter,
-  Routes,
-  Route
-} from "react-router-dom";
+import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router-dom";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -16,90 +10,88 @@ import CameraPage from "./pages/CameraPage";
 import GaleriaPage from "./pages/GaleriaPage";
 
 import PrivateRoute from "./routes/PrivateRoute";
-
 import useAlarmes from "./hooks/useAlarmes";
 
-function App() {
+import "./App.css";
+import "./PhoneLayout.css";
 
+function LayoutSite() {
+  return (
+    <div className="site-layout">
+      <Header />
+      <Outlet />
+      <Footer />
+    </div>
+  );
+}
+
+function LayoutCelular() {
+  return (
+    <div className="phone-page">
+      <div className="phone-frame">
+        <div className="phone-screen">
+          <div className="phone-notch">
+            <span></span>
+          </div>
+
+          <Header />
+
+          <div className="phone-content">
+            <Outlet />
+          </div>
+
+          <Footer />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function App() {
   const {
     alarmes,
     alarmeAtivo,
     pastas,
     adicionarAlarme,
-    atualizarAlarme,
-    fecharAlarme
+    excluirAlarme,
+    excluirPasta,
+    fecharAlarme,
   } = useAlarmes();
 
   return (
     <BrowserRouter>
-
-      <Header />
-
       <Routes>
+        {/* Rotas públicas */}
+        <Route element={<LayoutSite />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+        </Route>
 
-        {/* -------------------------------- */}
-        {/* ROTA PÚBLICA - HOME */}
-        {/* -------------------------------- */}
+        {/* Rotas privadas */}
+        <Route element={<PrivateRoute />}>
+          <Route element={<LayoutCelular />}>
+            <Route
+              path="/camera"
+              element={<CameraPage onAdicionarAlarme={adicionarAlarme} pastas={pastas} />}
+            />
+            <Route
+              path="/galeria"
+              element={
+                <GaleriaPage
+                  alarmes={alarmes}
+                  pastas={pastas}
+                  onExcluirAlarme={excluirAlarme}
+                  onExcluirPasta={excluirPasta}
+                />
+              }
+            />
+          </Route>
+        </Route>
 
-        <Route
-          path="/"
-          element={<Home />}
-        />
-
-        {/* -------------------------------- */}
-        {/* ROTA PÚBLICA - LOGIN */}
-        {/* -------------------------------- */}
-
-        <Route
-          path="/login"
-          element={<Login />}
-        />
-
-        {/* -------------------------------- */}
-        {/* ROTA PRIVADA - CÂMERA */}
-        {/* -------------------------------- */}
-
-        <Route
-          path="/camera"
-          element={
-            <PrivateRoute>
-              <CameraPage
-                onAdicionarAlarme={
-                  adicionarAlarme
-                }
-                pastas={pastas}
-              />
-            </PrivateRoute>
-          }
-        />
-
-        {/* -------------------------------- */}
-        {/* ROTA PRIVADA - GALERIA */}
-        {/* -------------------------------- */}
-
-        <Route
-          path="/galeria"
-          element={
-            <PrivateRoute>
-              <GaleriaPage
-                alarmes={alarmes}
-                onAtualizarAlarme={
-                  atualizarAlarme
-                }
-              />
-            </PrivateRoute>
-          }
-        />
-
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 
-      <Footer />
-
-      <AlertaAlarme
-        alarme={alarmeAtivo}
-        onFechar={fecharAlarme}
-      />
-
+      <AlertaAlarme alarme={alarmeAtivo} onFechar={fecharAlarme} />
     </BrowserRouter>
   );
 }

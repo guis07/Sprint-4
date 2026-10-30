@@ -1,0 +1,364 @@
+
+/* A moldura existe somente nas páginas que usam LayoutCelular */
+.phone-page {
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 24px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #d9dde3;
+}
+
+.phone-frame {
+  width: 390px;
+  max-width: 100%;
+  height: min(850px, calc(100vh - 48px));
+  min-height: 620px;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 2px solid #292a30;
+  border-radius: 42px;
+  background: #191a20;
+  box-shadow: 0 20px 50px #0004;
+}
+
+.phone-screen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 32px;
+  background: #111216;
+  color: #f5f5f5;
+}
+
+.phone-notch {
+  position: absolute;
+  z-index: 10;
+  top: 8px;
+  left: 50%;
+  width: 76px;
+  height: 18px;
+  transform: translateX(-50%);
+  border-radius: 20px;
+  background: #050505;
+  pointer-events: none;
+}
+
+.phone-notch span {
+  position: absolute;
+  top: 5px;
+  right: 9px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #283653;
+}
+
+/* Cabeçalho dentro do aplicativo */
+.phone-screen > header {
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.phone-screen > header > div {
+  max-width: none;
+  padding: 30px 12px 12px;
+  gap: 10px;
+}
+
+.phone-screen nav {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Área de conteúdo */
+.phone-content {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #111216;
+}
+
+.phone-content main {
+  width: 100%;
+  max-width: none;
+  min-height: 100%;
+  margin: 0;
+  padding: 14px 10px;
+  box-sizing: border-box;
+}
+
+/* Câmera e galeria */
+.phone-content .scan-section,
+.phone-content .gallery-section {
+  width: 100%;
+  margin: 0;
+  padding: 16px;
+  box-sizing: border-box;
+  border: 1px solid #33343b;
+  border-radius: 22px;
+  background: #17181d;
+  color: #f5f5f5;
+  box-shadow: none;
+}
+
+.phone-content .scan-header h2,
+.phone-content .gallery-header h2 {
+  color: white;
+  font-size: 23px;
+}
+
+.phone-content .scan-header p,
+.phone-content .gallery-header p,
+.phone-content .focus-message {
+  color: #a1a1aa;
+  font-size: 13px;
+}
+
+.phone-content .section-label {
+  color: #f5c542;
+}
+
+/* Seleção de imagem */
+.phone-content .camera-upload {
+  min-height: 230px;
+  padding: 14px;
+  box-sizing: border-box;
+  background: #1b1c22;
+  border-color: #44454d;
+  color: white;
+  text-align: center;
+}
+
+.phone-content .camera-upload span {
+  color: #a1a1aa;
+}
+
+.phone-content .image-preview {
+  width: 100%;
+  padding: 6px;
+  box-sizing: border-box;
+}
+
+.phone-content .scan-image {
+  max-width: 100%;
+  max-height: 320px;
+  min-height: 0;
+  object-fit: contain;
+}
+
+/* Botões */
+.phone-content .focus-button,
+.phone-content .alarm-button,
+.phone-content .create-alarm-button,
+.phone-content .ai-button,
+.phone-content .ai-main-button {
+  background: #f5c542;
+  color: #111216;
+}
+
+.phone-content .focus-button:hover,
+.phone-content .alarm-button:hover,
+.phone-content .create-alarm-button:hover,
+.phone-content .ai-button:hover,
+.phone-content .ai-main-button:hover {
+  background: #ffda70;
+}
+
+/* Formulário de alarme */
+.phone-content .alarme-form {
+  width: 100%;
+  padding: 14px;
+  box-sizing: border-box;
+  background: #1b1c22;
+  border-color: #33343b;
+  color: white;
+}
+
+.phone-content .alarm-form-header h3,
+.phone-content .form-group label,
+.phone-content .checkbox-label {
+  color: white;
+}
+
+.phone-content .alarm-form-header p {
+  color: #a1a1aa;
+}
+
+.phone-content .form-row {
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.phone-content .form-group input,
+.phone-content .form-group select,
+.phone-content .folder-container input,
+.phone-content .folder-container select {
+  max-width: 100%;
+  box-sizing: border-box;
+  background: #111216;
+  color: white;
+  border-color: #44454d;
+}
+
+.phone-content .form-option,
+.phone-content .days-container,
+.phone-content .folder-container {
+  background: #22232a;
+  border-color: #383941;
+}
+
+.phone-content .days-container p,
+.phone-content .folder-container p {
+  color: #d4d4d8;
+}
+
+.phone-content .day {
+  background: #292a30;
+  border-color: #44454d;
+  color: white;
+}
+
+.phone-content .day.selected {
+  background: #f5c542;
+  color: #111216;
+}
+
+.phone-content .folder-option {
+  background: #292a30;
+  border-color: #44454d;
+  color: white;
+}
+
+.phone-content .cancel-alarm-button {
+  background: #303139;
+  color: white;
+}
+
+/* Cartões da galeria */
+.phone-content .gallery-grid,
+.phone-content .folders-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.phone-content .gallery-card,
+.phone-content .folder-card {
+  min-width: 0;
+  overflow: hidden;
+  background: #1b1c22;
+  border-color: #33343b;
+  border-radius: 15px;
+  color: white;
+}
+
+.phone-content .gallery-image-container {
+  height: 115px;
+}
+
+.phone-content .gallery-card-content {
+  padding: 9px;
+}
+
+.phone-content .gallery-card-content h3,
+.phone-content .folder-name {
+  color: white;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.phone-content .gallery-info,
+.phone-content .folder-count {
+  color: #a1a1aa;
+}
+
+.phone-content .gallery-count {
+  min-width: 50px;
+  padding: 8px;
+  background: #292a30;
+  color: #f5c542;
+}
+
+.phone-content .gallery-count span {
+  color: #a1a1aa;
+}
+
+.phone-content .gallery-folder {
+  background: #303139;
+  color: #f5c542;
+}
+
+/* Outras áreas do aplicativo */
+.phone-content .ai-area,
+.phone-content .ai-result,
+.phone-content .text-reader,
+.phone-content .review-section {
+  background: #1b1c22;
+  border-color: #33343b;
+  color: white;
+}
+
+/* Janelas da galeria */
+.phone-content .folder-modal,
+.phone-content .image-modal {
+  max-width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  background: #191a20;
+  color: white;
+}
+
+/* Rodapé dentro da moldura */
+.phone-screen > footer {
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.phone-screen > footer > div {
+  padding: 10px;
+  gap: 8px;
+}
+
+.phone-screen > footer p {
+  font-size: 10px;
+}
+
+/* Em telas pequenas, o aplicativo ocupa a tela inteira */
+@media (max-width: 600px) {
+  .phone-page {
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 0;
+    background: #111216;
+  }
+
+  .phone-frame {
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .phone-screen {
+    border-radius: 0;
+  }
+
+  .phone-notch {
+    display: none;
+  }
+
+  .phone-screen > header > div {
+    padding-top: 12px;
+  }
+}

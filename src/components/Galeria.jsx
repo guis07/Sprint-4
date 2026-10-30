@@ -2,61 +2,39 @@ import { useState } from "react";
 import LeitorTexto from "./LeitorTexto";
 import { gerarResumo } from "../services/api";
 
-function Galeria({ alarmes }) {
-  const [imagemSelecionada, setImagemSelecionada] =
-    useState(null);
-
-  const [pastaSelecionada, setPastaSelecionada] =
-    useState(null);
-
-  const [textoExtraido, setTextoExtraido] =
-    useState("");
-
+function Galeria({ alarmes, pastas, onExcluirAlarme, onExcluirPasta }) {
+  const [imagemSelecionada, setImagemSelecionada] = useState(null);
+  const [pastaSelecionada, setPastaSelecionada] = useState(null);
+  const [textoExtraido, setTextoExtraido] = useState("");
   const [resumo, setResumo] = useState("");
+  const [carregandoResumo, setCarregandoResumo] = useState(false);
+  const [erroResumo, setErroResumo] = useState("");
 
-  const [carregandoResumo, setCarregandoResumo] =
-    useState(false);
+  // Se a pasta deixar de existir (foi excluída), o modal fecha sozinho
+  const pastaAberta = pastas.includes(pastaSelecionada) ? pastaSelecionada : null;
 
-  const [erroResumo, setErroResumo] =
-    useState("");
+  const imagensSemPasta = alarmes.filter((alarme) => !alarme.pasta);
+  const imagensDaPasta = alarmes.filter((alarme) => alarme.pasta === pastaAberta);
 
-  const pastas = [
-    ...new Set(
-      alarmes
-        .map((alarme) => alarme.pasta)
-        .filter((pasta) => pasta)
-    )
-  ];
-
-  const imagensSemPasta = alarmes.filter(
-    (alarme) => !alarme.pasta
-  );
-
-  const imagensDaPasta = alarmes.filter(
-    (alarme) => alarme.pasta === pastaSelecionada
-  );
-
-  function abrirImagem(alarme) {
-    setImagemSelecionada(alarme);
-
-    // Limpa os dados anteriores ao abrir outra imagem
+  function limparResultadosIA() {
     setTextoExtraido("");
     setResumo("");
     setErroResumo("");
+  }
+
+  function abrirImagem(alarme) {
+    setImagemSelecionada(alarme);
+    limparResultadosIA();
   }
 
   function fecharImagem() {
     setImagemSelecionada(null);
-    setTextoExtraido("");
-    setResumo("");
-    setErroResumo("");
+    limparResultadosIA();
   }
 
   async function gerarResumoIA() {
     if (!textoExtraido.trim()) {
-      setErroResumo(
-        "Primeiro extraia o texto da imagem."
-      );
+      setErroResumo("Primeiro extraia o texto da imagem.");
       return;
     }
 
@@ -65,83 +43,33 @@ function Galeria({ alarmes }) {
       setErroResumo("");
       setResumo("");
 
-      const resultado =
-        await gerarResumo(textoExtraido);
-
+      const resultado = await gerarResumo(textoExtraido);
       setResumo(resultado);
     } catch (erro) {
       console.error(erro);
-
-      setErroResumo(
-        "Não foi possível gerar o resumo."
-      );
+      setErroResumo("Não foi possível gerar o resumo.");
     } finally {
       setCarregandoResumo(false);
     }
   }
 
-  function abrirPasta(pasta) {
-    setPastaSelecionada(pasta);
-  }
-
-  function fecharPasta() {
-    setPastaSelecionada(null);
-  }
-
   function excluirLembrete(id) {
-    const confirmar = window.confirm(
-      "Tem certeza que deseja excluir este lembrete?"
-    );
-
-    if (!confirmar) {
-      return;
+    if (window.confirm("Tem certeza que deseja excluir este lembrete?")) {
+      onExcluirAlarme(id);
     }
-
-    const alarmesSalvos =
-      JSON.parse(localStorage.getItem("alarmes")) || [];
-
-    const novosAlarmes = alarmesSalvos.filter(
-      (alarme) => alarme.id !== id
-    );
-
-    localStorage.setItem(
-      "alarmes",
-      JSON.stringify(novosAlarmes)
-    );
-
-    window.location.reload();
   }
 
   function excluirPasta(nomePasta) {
-    const confirmar = window.confirm(
-      `Tem certeza que deseja excluir a pasta "${nomePasta}"?\n\nTodos os lembretes dentro dela também serão excluídos.`
-    );
+    const mensagem = `Tem certeza que deseja excluir a pasta "${nomePasta}"?\n\nTodos os lembretes dentro dela também serão excluídos.`;
 
-    if (!confirmar) {
-      return;
+    if (window.confirm(mensagem)) {
+      onExcluirPasta(nomePasta);
     }
-
-    const alarmesSalvos =
-      JSON.parse(localStorage.getItem("alarmes")) || [];
-
-    const novosAlarmes = alarmesSalvos.filter(
-      (alarme) => alarme.pasta !== nomePasta
-    );
-
-    localStorage.setItem(
-      "alarmes",
-      JSON.stringify(novosAlarmes)
-    );
-
-    window.location.reload();
   }
 
   function renderizarCard(alarme) {
     return (
-      <article
-        className="gallery-card"
-        key={alarme.id}
-      >
+      <article className="gallery-card" key={alarme.id}>
         <div
           className="gallery-image-container"
           onClick={() => abrirImagem(alarme)}
@@ -154,14 +82,10 @@ function Galeria({ alarmes }) {
 
           <div className="gallery-icons">
             {alarme.focoHabilitado && (
-              <span className="gallery-icon">
-                🔎
-              </span>
+              <span className="gallery-icon">🔎</span>
             )}
 
-            <span className="gallery-icon alarm-icon">
-              🔔
-            </span>
+            <span className="gallery-icon alarm-icon">🔔</span>
           </div>
         </div>
 
@@ -169,13 +93,8 @@ function Galeria({ alarmes }) {
           <h3>{alarme.nome}</h3>
 
           <div className="gallery-info">
-            <span>
-              📅 {alarme.data}
-            </span>
-
-            <span>
-              ⏰ {alarme.horario}
-            </span>
+            <span>📅 {alarme.data}</span>
+            <span>⏰ {alarme.horario}</span>
           </div>
 
           {alarme.pasta && (
@@ -193,9 +112,7 @@ function Galeria({ alarmes }) {
 
           <button
             className="delete-button"
-            onClick={() =>
-              excluirLembrete(alarme.id)
-            }
+            onClick={() => excluirLembrete(alarme.id)}
           >
             🗑️ Excluir lembrete
           </button>
@@ -206,86 +123,65 @@ function Galeria({ alarmes }) {
 
   return (
     <section className="gallery-section">
-
       <div className="gallery-header">
-
         <div>
-          <span className="section-label">
-            SEUS REGISTROS
-          </span>
-
+          <span className="section-label">SEUS REGISTROS</span>
           <h2>Galeria</h2>
-
           <p>
-            Encontre suas imagens, lembretes e conteúdos
-            registrados.
+            Encontre suas imagens, lembretes e conteúdos registrados.
           </p>
         </div>
 
         <div className="gallery-count">
           {alarmes.length}
-
           <span>
-            {alarmes.length === 1
-              ? " registro"
-              : " registros"}
+            {alarmes.length === 1 ? " registro" : " registros"}
           </span>
         </div>
-
       </div>
 
       {alarmes.length === 0 && (
         <div className="empty-gallery">
-
-          <div>
-            📷
-          </div>
-
-          <h3>
-            Sua galeria está vazia
-          </h3>
-
-          <p>
-            Tire uma foto no Modo Scan para começar.
-          </p>
-
+          <div>📷</div>
+          <h3>Sua galeria está vazia</h3>
+          <p>Tire uma foto no Modo Scan para começar.</p>
         </div>
       )}
 
       {alarmes.length > 0 && (
         <>
-
           {pastas.length > 0 && (
             <div className="folders-area">
-
-              <h3 className="gallery-subtitle">
-                📁 Pastas
-              </h3>
+              <h3 className="gallery-subtitle">📁 Pastas</h3>
 
               <div className="folders-grid">
-
                 {pastas.map((pasta) => {
+                  const alarmesDaPasta = alarmes.filter(
+                    (alarme) => alarme.pasta === pasta
+                  );
 
-                  const quantidade =
-                    alarmes.filter(
-                      (alarme) =>
-                        alarme.pasta === pasta
-                    ).length;
+                  const quantidade = alarmesDaPasta.length;
+
+                  const primeiraImagem = alarmesDaPasta.find(
+                    (alarme) => alarme.foto
+                  );
 
                   return (
-                    <div
-                      className="folder-card"
-                      key={pasta}
-                    >
-
+                    <div className="folder-card" key={pasta}>
                       <button
                         className="folder-open-button"
-                        onClick={() =>
-                          abrirPasta(pasta)
-                        }
+                        onClick={() => setPastaSelecionada(pasta)}
                       >
                         <span className="folder-icon">
-                          📁
+                          {primeiraImagem ? (
+                            <img
+                              src={primeiraImagem.foto}
+                              alt={`Foto da pasta ${pasta}`}
+                              className="folder-thumbnail"
+                            />
+                          ) : (
+                            "📁"
+                          )}
                         </span>
 
                         <span className="folder-name">
@@ -294,111 +190,76 @@ function Galeria({ alarmes }) {
 
                         <span className="folder-count">
                           {quantidade}{" "}
-                          {quantidade === 1
-                            ? "item"
-                            : "itens"}
+                          {quantidade === 1 ? "item" : "itens"}
                         </span>
                       </button>
 
                       <button
                         className="folder-delete-button"
-                        onClick={() =>
-                          excluirPasta(pasta)
-                        }
+                        onClick={() => excluirPasta(pasta)}
                       >
                         🗑️ Excluir pasta
                       </button>
-
                     </div>
                   );
                 })}
-
               </div>
-
             </div>
           )}
 
           {imagensSemPasta.length > 0 && (
             <div className="gallery-area">
-
               <h3 className="gallery-subtitle">
                 📷 Imagens sem pasta
               </h3>
 
               <div className="gallery-grid">
-
-                {imagensSemPasta.map(
-                  (alarme) =>
-                    renderizarCard(alarme)
+                {imagensSemPasta.map((alarme) =>
+                  renderizarCard(alarme)
                 )}
-
               </div>
-
             </div>
           )}
-
         </>
       )}
 
       {/* PASTA ABERTA */}
-
-      {pastaSelecionada && (
+      {pastaAberta && (
         <div className="overlay">
-
           <div className="folder-modal">
-
             <div className="modal-header">
-
               <div>
-                <span className="section-label">
-                  PASTA
-                </span>
-
-                <h2>
-                  📁 {pastaSelecionada}
-                </h2>
+                <span className="section-label">PASTA</span>
+                <h2>📁 {pastaAberta}</h2>
               </div>
 
               <button
                 className="close-button"
-                onClick={fecharPasta}
+                onClick={() => setPastaSelecionada(null)}
               >
                 ✕
               </button>
-
             </div>
 
             <div className="gallery-grid">
-
-              {imagensDaPasta.map(
-                (alarme) =>
-                  renderizarCard(alarme)
+              {imagensDaPasta.map((alarme) =>
+                renderizarCard(alarme)
               )}
-
             </div>
-
           </div>
-
         </div>
       )}
 
       {/* IMAGEM ABERTA */}
-
       {imagemSelecionada && (
         <div className="overlay">
-
           <div className="image-modal">
-
             <div className="modal-header">
-
               <div>
                 <span className="section-label">
                   CONTEÚDO REGISTRADO
                 </span>
-
-                <h2>
-                  {imagemSelecionada.nome}
-                </h2>
+                <h2>{imagemSelecionada.nome}</h2>
               </div>
 
               <button
@@ -407,7 +268,6 @@ function Galeria({ alarmes }) {
               >
                 ✕
               </button>
-
             </div>
 
             <img
@@ -417,40 +277,26 @@ function Galeria({ alarmes }) {
             />
 
             <div className="modal-information">
-
-              <div>
-                📅 {imagemSelecionada.data}
-              </div>
-
-              <div>
-                ⏰ {imagemSelecionada.horario}
-              </div>
+              <div>📅 {imagemSelecionada.data}</div>
+              <div>⏰ {imagemSelecionada.horario}</div>
 
               {imagemSelecionada.pasta && (
-                <div>
-                  📁 {imagemSelecionada.pasta}
-                </div>
+                <div>📁 {imagemSelecionada.pasta}</div>
               )}
 
               {imagemSelecionada.focoHabilitado && (
-                <div>
-                  🔎 Foco habilitado
-                </div>
+                <div>🔎 Foco habilitado</div>
               )}
-
             </div>
 
             {/* LEITOR DE TEXTO */}
-
             <LeitorTexto
               imagem={imagemSelecionada.foto}
               onTextoExtraido={setTextoExtraido}
             />
 
             {/* BOTÕES DE IA */}
-
             <div className="ai-actions">
-
               <button
                 className="ai-main-button"
                 type="button"
@@ -468,36 +314,23 @@ function Galeria({ alarmes }) {
               >
                 📚 Criar revisão
               </button>
-
             </div>
 
             {/* ERRO DA API */}
-
             {erroResumo && (
-              <p className="ai-error">
-                {erroResumo}
-              </p>
+              <p className="ai-error">{erroResumo}</p>
             )}
 
             {/* RESULTADO DA IA */}
-
             {resumo && (
               <div className="ai-result">
-                <h3>
-                  🤖 Resumo gerado pela IA
-                </h3>
-
-                <p>
-                  {resumo}
-                </p>
+                <h3>🤖 Resumo gerado pela IA</h3>
+                <p>{resumo}</p>
               </div>
             )}
-
           </div>
-
         </div>
       )}
-
     </section>
   );
 }
