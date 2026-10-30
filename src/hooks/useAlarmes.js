@@ -2,14 +2,6 @@ import { useEffect, useRef, useState } from "react";
 
 const DIAS_SEMANA = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
 
-function lerAlarmesSalvos() {
-  try {
-    return JSON.parse(localStorage.getItem("alarmes")) ?? [];
-  } catch {
-    return [];
-  }
-}
-
 function obterAgora() {
   const agora = new Date();
   const dois = (numero) => String(numero).padStart(2, "0");
@@ -32,17 +24,10 @@ function deveDisparar(alarme, agora) {
 }
 
 function useAlarmes() {
-  const [alarmes, setAlarmes] = useState(lerAlarmesSalvos);
+  // Os dados ficam só na memória: ao recarregar a página, tudo é apagado
+  const [alarmes, setAlarmes] = useState([]);
   const [alarmeAtivo, setAlarmeAtivo] = useState(null);
   const jaDisparados = useRef(new Set());
-
-  useEffect(() => {
-    try {
-      localStorage.setItem("alarmes", JSON.stringify(alarmes));
-    } catch (erro) {
-      console.error("Não foi possível salvar os alarmes:", erro);
-    }
-  }, [alarmes]);
 
   useEffect(() => {
     function verificarAlarmes() {

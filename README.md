@@ -19,7 +19,7 @@ Os nomes e RMs estão no arquivo `INTEGRANTES.TXT`.
 - Vite
 - Tesseract.js (OCR no navegador)
 - Função serverless da Vercel (API própria em `api/resumo.js`)
-- `localStorage` (login, alarmes e fotos)
+- `localStorage` (login) e estado do React (alarmes, fotos e pastas, apagados ao recarregar a página)
 
 ## Funcionalidades
 
