@@ -63,3 +63,104 @@
   text-align: center;
   line-height: 1.6;
 }
+
+/* Foto aberta: ocupa só a tela do celular (e não a janela inteira do navegador) */
+.camera-app.galeria-aberta .overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  padding: 0;
+  align-items: stretch;
+  overflow: hidden;
+  background: #191a20;
+}
+
+/* Tela da foto: limpa e sem rolagem. A foto ocupa o espaço que sobra */
+.camera-app.galeria-aberta .image-modal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: none;
+  max-height: none;
+  height: 100%;
+  padding: 12px;
+  border-radius: 0;
+  overflow-x: hidden;
+  overflow-y: auto; /* só rola se algo muito grande não couber (ex.: texto do OCR longo) */
+}
+
+.camera-app.galeria-aberta .image-modal > * {
+  flex-shrink: 0;
+  margin-top: 0;
+}
+
+.camera-app.galeria-aberta .image-modal > .modal-image {
+  flex: 1 1 0;
+  flex-shrink: 1;
+  min-height: 70px;
+  max-height: none;
+  object-fit: contain;
+}
+
+.camera-app.galeria-aberta .modal-fechar {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+}
+
+.camera-app.galeria-aberta .image-modal .text-reader {
+  padding: 12px;
+}
+
+.camera-app.galeria-aberta .image-modal .text-reader-header {
+  margin-bottom: 8px;
+}
+
+.camera-app.galeria-aberta .image-modal .text-reader-header h3 {
+  margin: 2px 0;
+}
+
+.camera-app.galeria-aberta .image-modal .text-reader-header p {
+  margin: 0;
+  font-size: 12px;
+}
+
+.camera-app.galeria-aberta .image-modal .ai-actions {
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.camera-app.galeria-aberta .image-modal .ai-main-button,
+.camera-app.galeria-aberta .image-modal .ai-secondary-button {
+  padding: 10px 6px;
+  font-size: 13px;
+}
+
+.camera-app.galeria-aberta .image-modal .recognized-text {
+  padding: 10px;
+}
+
+.camera-app.galeria-aberta .image-modal .recognized-text-content {
+  max-height: 64px;
+  overflow-y: auto;
+  padding: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.camera-app.galeria-aberta .image-modal .ocr-loading {
+  padding: 12px;
+}
+
+.camera-app.galeria-aberta .image-modal .ai-result {
+  padding: 12px;
+}
+
+.camera-app.galeria-aberta .image-modal .ai-result p {
+  max-height: 70px;
+  overflow-y: auto;
+}

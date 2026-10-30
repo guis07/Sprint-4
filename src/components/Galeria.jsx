@@ -70,110 +70,95 @@ function Galeria({ alarmes, pastas, onExcluirAlarme, onExcluirPasta }) {
   }
 
   return (
-    <>
-      <section className="camera-app galeria-aberta">
-        <div className="camera-galeria-tela galeria-rolagem">
-          <div className="galeria-topo">
-            <button type="button" onClick={() => navigate("/camera")} aria-label="Voltar à câmera">
-              ←
-            </button>
+    <section className="camera-app galeria-aberta">
+      <div className="camera-galeria-tela galeria-rolagem">
+        <div className="galeria-topo">
+          <button type="button" onClick={() => navigate("/camera")} aria-label="Voltar à câmera">
+            ←
+          </button>
 
-            <h2>Galeria</h2>
-          </div>
+          <h2>Galeria</h2>
+        </div>
 
-          <h3>Pastas</h3>
+        <h3>Pastas</h3>
 
-          <div className="galeria-pastas">
-            {pastas.map((pasta) => {
-              const doGrupo = alarmes.filter((alarme) => alarme.pasta === pasta);
+        <div className="galeria-pastas">
+          {pastas.map((pasta) => {
+            const doGrupo = alarmes.filter((alarme) => alarme.pasta === pasta);
 
-              return (
-                <button
-                  type="button"
-                  key={pasta}
-                  className={`galeria-pasta ${pasta === pastaAberta ? "galeria-pasta-ativa" : ""}`}
-                  onClick={() => setPastaSelecionada(pasta === pastaAberta ? null : pasta)}
-                >
-                  <div className="galeria-pasta-capa">
-                    {doGrupo[0]?.foto ? <img src={doGrupo[0].foto} alt={`Pasta ${pasta}`} /> : <span>▤</span>}
-                  </div>
+            return (
+              <button
+                type="button"
+                key={pasta}
+                className={`galeria-pasta ${pasta === pastaAberta ? "galeria-pasta-ativa" : ""}`}
+                onClick={() => setPastaSelecionada(pasta === pastaAberta ? null : pasta)}
+              >
+                <div className="galeria-pasta-capa">
+                  {doGrupo[0]?.foto ? <img src={doGrupo[0].foto} alt={`Pasta ${pasta}`} /> : <span>▤</span>}
+                </div>
 
-                  <p>
-                    {pasta} ({doGrupo.length})
-                  </p>
-                </button>
-              );
-            })}
-
-            <button
-              type="button"
-              className={`galeria-pasta ${pastaAberta ? "" : "galeria-pasta-ativa"}`}
-              onClick={() => setPastaSelecionada(null)}
-            >
-              <div className="galeria-pasta-capa galeria-pasta-escura">
-                <span>▧</span>
-              </div>
-
-              <p>Todas as fotos ({alarmes.length})</p>
-            </button>
-          </div>
-
-          <div className="galeria-fotos-titulo">
-            <h3>{pastaAberta ? `Fotos · ${pastaAberta}` : "Fotos"}</h3>
-
-            {pastaAberta && (
-              <button type="button" className="galeria-pasta-excluir" onClick={() => excluirPasta(pastaAberta)}>
-                🗑️ Excluir pasta
+                <p>
+                  {pasta} ({doGrupo.length})
+                </p>
               </button>
-            )}
-          </div>
+            );
+          })}
 
-          {fotos.length === 0 ? (
-            <p className="galeria-vazia">
-              Sua galeria está vazia.
-              <br />
-              Tire uma foto no Modo Scan para começar.
-            </p>
-          ) : (
-            <div className="galeria-fotos">
-              {fotos.map((alarme) => (
-                <button
-                  type="button"
-                  key={alarme.id}
-                  className="galeria-foto"
-                  onClick={() => abrirImagem(alarme)}
-                  aria-label={`Abrir ${alarme.nome}`}
-                >
-                  <img src={alarme.foto} alt={alarme.nome} />
-                </button>
-              ))}
+          <button
+            type="button"
+            className={`galeria-pasta ${pastaAberta ? "" : "galeria-pasta-ativa"}`}
+            onClick={() => setPastaSelecionada(null)}
+          >
+            <div className="galeria-pasta-capa galeria-pasta-escura">
+              <span>▧</span>
             </div>
+
+            <p>Todas as fotos ({alarmes.length})</p>
+          </button>
+        </div>
+
+        <div className="galeria-fotos-titulo">
+          <h3>{pastaAberta ? `Fotos · ${pastaAberta}` : "Fotos"}</h3>
+
+          {pastaAberta && (
+            <button type="button" className="galeria-pasta-excluir" onClick={() => excluirPasta(pastaAberta)}>
+              🗑️ Excluir pasta
+            </button>
           )}
         </div>
-      </section>
 
+        {fotos.length === 0 ? (
+          <p className="galeria-vazia">
+            Sua galeria está vazia.
+            <br />
+            Tire uma foto no Modo Scan para começar.
+          </p>
+        ) : (
+          <div className="galeria-fotos">
+            {fotos.map((alarme) => (
+              <button
+                type="button"
+                key={alarme.id}
+                className="galeria-foto"
+                onClick={() => abrirImagem(alarme)}
+                aria-label={`Abrir ${alarme.nome}`}
+              >
+                <img src={alarme.foto} alt={alarme.nome} />
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Foto aberta: fica dentro do celular, em cima da galeria */}
       {imagemSelecionada && (
         <div className="overlay">
           <div className="image-modal">
-            <div className="modal-header">
-              <div>
-                <span className="section-label">CONTEÚDO REGISTRADO</span>
-                <h2>{imagemSelecionada.nome}</h2>
-              </div>
-
-              <button className="close-button" onClick={fecharImagem}>
-                ✕
-              </button>
-            </div>
+            <button className="close-button modal-fechar" onClick={fecharImagem} aria-label="Fechar">
+              ✕
+            </button>
 
             <img src={imagemSelecionada.foto} alt={imagemSelecionada.nome} className="modal-image" />
-
-            <div className="modal-information">
-              <div>📅 {imagemSelecionada.data}</div>
-              <div>⏰ {imagemSelecionada.horario}</div>
-              {imagemSelecionada.pasta && <div>📁 {imagemSelecionada.pasta}</div>}
-              {imagemSelecionada.focoHabilitado && <div>🔎 Foco habilitado</div>}
-            </div>
 
             <LeitorTexto imagem={imagemSelecionada.foto} onTextoExtraido={setTextoExtraido} />
 
@@ -207,7 +192,7 @@ function Galeria({ alarmes, pastas, onExcluirAlarme, onExcluirPasta }) {
           </div>
         </div>
       )}
-    </>
+    </section>
   );
 }
 
