@@ -5,8 +5,8 @@ Aplicação web em React que ajuda a registrar, organizar e consultar imagens e 
 Projeto da **Sprint 4** (Front-End Design + Web Development), evolução da solução da Challenge JOVI desenvolvida nas sprints anteriores.
 
 - **Repositório Git:** https://github.com/guis07/Sprint-4
-- **Deploy na Vercel:** `INSERIR AQUI O LINK DA VERCEL`
-
+- **Deploy na Vercel:** 
+https://sprint-4-jade.vercel.app
 ## Integrantes
 
 Os nomes e RMs estão no arquivo `INTEGRANTES.TXT`.
@@ -113,7 +113,7 @@ O resumo é gerado por um algoritmo simples: devolve as primeiras frases do text
 2. Em `/camera`, toque no botão central e escolha uma imagem (de preferência com texto, como uma foto de lousa).
 3. Toque no botão central de novo, clique em **Habilitar foco** e depois em **Criar alarme**.
 4. Preencha horário, data e nome (opcionalmente pasta e repetição) e crie o alarme.
-5. Em `/galeria`, abra o registro, clique em **Identificar texto** (OCR) e depois em **Gerar resumo**.
+5. Em `/galeria`, toque na foto, clique em **Identificar texto** (OCR) e depois em **Gerar resumo**.
 6. Para testar o alerta, crie um alarme para daqui a 1 ou 2 minutos e mantenha a aba aberta.
 
 ## Estrutura do projeto
@@ -144,6 +144,6 @@ vercel.json                 Redirecionamento das rotas do React Router
 
 ## Uso de inteligência artificial
 
-Ferramentas de inteligência artificial (Claude, da Anthropic) foram usadas como apoio ao desenvolvimento: para revisar o código e apontar erros, remover código e arquivos que não eram usados, mover a API para uma função serverless compatível com a Vercel, separar a lógica de autenticação e de redução de imagens em serviços, configurar o deploy e redigir este README. As alterações são verificadas e adaptadas de acordo com as necessidades do projeto.
+Ferramentas de inteligência artificial (Claude, da Anthropic) foram usadas como apoio ao desenvolvimento: para revisar o código e apontar erros, mover a API para uma função serverless compatível com a Vercel, separar a lógica de autenticação e de redução de imagens em serviços.
 
 A funcionalidade de resumo da aplicação **não** utiliza IA generativa: é um algoritmo próprio que seleciona as primeiras frases do texto reconhecido pelo OCR (Tesseract.js).
