@@ -7,7 +7,6 @@ function LeitorTexto({ imagem, onTextoExtraido }) {
   const [progresso, setProgresso] = useState(0);
   const [erro, setErro] = useState("");
 
-  // Envia o texto reconhecido para o componente Galeria
   useEffect(() => {
     onTextoExtraido?.(texto);
   }, [texto, onTextoExtraido]);

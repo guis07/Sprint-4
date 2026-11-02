@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 
 function Home() {
@@ -12,7 +11,6 @@ function Home() {
 
   return (
     <main className="m-0 w-full max-w-none bg-[#080808] p-0 font-sans text-white">
-      {/* Apresentação */}
       <section className="grid min-h-[85vh] grid-cols-1 items-center gap-12 px-6 py-16 sm:px-10 lg:grid-cols-2 lg:px-[10%]">
         <div>
           <span className="text-sm font-semibold uppercase tracking-[3px] text-cyan-400">
@@ -50,7 +48,6 @@ function Home() {
         </div>
       </section>
 
-      {/* Solução */}
       <section
         id="solucao"
         className="scroll-mt-8 px-6 py-16 sm:px-10 lg:px-[10%] lg:py-24"
@@ -95,7 +92,6 @@ function Home() {
         </div>
       </section>
 
-      {/* Como funciona */}
       <section
         id="como-funciona"
         className="scroll-mt-8 bg-[#101010] px-6 py-16 sm:px-10 lg:px-[10%] lg:py-24"
@@ -151,7 +147,6 @@ function Home() {
         </div>
       </section>
 
-      {/* Público-alvo */}
       <section
         id="publico"
         className="scroll-mt-8 px-6 py-16 sm:px-10 lg:px-[10%] lg:py-24"
@@ -189,7 +184,6 @@ function Home() {
         </div>
       </section>
 
-      {/* Benefícios */}
       <section className="px-6 py-16 sm:px-10 lg:px-[10%] lg:py-24">
         <h2 className="mb-10 text-3xl font-bold sm:text-4xl">
           Benefícios
@@ -233,7 +227,6 @@ function Home() {
         </div>
       </section>
 
-      {/* Galeria */}
       <section
         id="galeria"
         className="scroll-mt-8 bg-[#101010] px-6 py-16 sm:px-10 lg:px-[10%] lg:py-24"
@@ -303,7 +296,6 @@ function Home() {
         </div>
       </section>
 
-      {/* Equipe */}
       <section
         id="equipe"
         className="scroll-mt-8 px-6 py-16 sm:px-10 lg:px-[10%] lg:py-24"
@@ -361,7 +353,6 @@ function Home() {
         </div>
       </section>
 
-      {/* Contato */}
       <section
         id="contato"
         className="scroll-mt-8 bg-[#101010] px-6 py-16 sm:px-10 lg:px-[10%] lg:py-24"

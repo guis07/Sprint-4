@@ -1,4 +1,3 @@
-// Reduz a foto antes de salvar, para caber no localStorage (limite de ~5 MB).
 export function redimensionarImagem(arquivo, ladoMaximo = 1600) {
   return new Promise((resolve, reject) => {
     const url = URL.createObjectURL(arquivo);

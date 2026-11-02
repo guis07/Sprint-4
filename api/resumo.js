@@ -1,5 +1,3 @@
-// Função serverless da Vercel: POST /api/resumo
-// Recebe { texto } e devolve { resumo } com as primeiras frases do texto.
 export default function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ erro: "Método não permitido." });

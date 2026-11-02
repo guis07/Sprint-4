@@ -20,10 +20,6 @@ button {
   cursor: pointer;
 }
 
-/* =========================
-   HEADER
-========================= */
-
 .header {
   width: 100%;
   background: #ffffff;
@@ -68,8 +64,6 @@ button {
   color: #7b8794;
 }
 
-/* Navegação */
-
 .header-nav {
   display: flex;
   align-items: center;
@@ -87,8 +81,6 @@ button {
 .header-nav a:hover {
   color: #2563eb;
 }
-
-/* Status */
 
 .header-status {
   display: flex;
@@ -108,8 +100,6 @@ button {
   background: #28a745;
 }
 
-/* Botão Sair */
-
 .header-status button {
   border: none;
   background: transparent;
@@ -124,19 +114,11 @@ button {
   color: #fb7185;
 }
 
-/* =========================
-   MAIN
-========================= */
-
 main {
   max-width: 1100px;
   margin: 0 auto;
   padding: 35px 25px;
 }
-
-/* =========================
-   SCAN
-========================= */
 
 .scan-section {
   background: white;
@@ -184,10 +166,6 @@ main {
   font-size: 25px;
 }
 
-/* =========================
-   CAMERA UPLOAD
-========================= */
-
 .camera-upload {
   min-height: 260px;
   border: 2px dashed #cfd5da;
@@ -223,10 +201,6 @@ main {
 .camera-upload input {
   display: none;
 }
-
-/* =========================
-   PREVIEW
-========================= */
 
 .preview-container {
   display: flex;
@@ -311,10 +285,6 @@ main {
   margin-bottom: 5px;
 }
 
-/* =========================
-   ALARME FORM
-========================= */
-
 .alarme-form {
   width: 100%;
   max-width: 650px;
@@ -353,10 +323,6 @@ main {
   background: white;
   font-size: 22px;
 }
-
-/* =========================
-   FORMULÁRIOS
-========================= */
 
 .form-group {
   margin-bottom: 18px;
@@ -424,10 +390,6 @@ main {
   cursor: pointer;
 }
 
-/* =========================
-   DIAS
-========================= */
-
 .days-container {
   margin-top: 10px;
   padding: 15px;
@@ -469,10 +431,6 @@ main {
   border-color: #17202a;
   color: white;
 }
-
-/* =========================
-   PASTAS
-========================= */
 
 .folder-container {
   margin-top: 10px;
@@ -521,10 +479,6 @@ main {
   font-weight: bold;
 }
 
-/* =========================
-   BOTÕES DE ALARME
-========================= */
-
 .alarm-actions {
   margin-top: 25px;
 }
@@ -562,10 +516,6 @@ main {
 .cancel-alarm-button:hover {
   background: #dadddf;
 }
-
-/* =========================
-   GALERIA
-========================= */
 
 .gallery-section {
   background: white;
@@ -664,10 +614,6 @@ main {
   color: #7b8794;
 }
 
-/* =========================
-   GALERIA GRID
-========================= */
-
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(
@@ -758,10 +704,6 @@ main {
   font-size: 11px;
 }
 
-/* =========================
-   IA
-========================= */
-
 .ai-button {
   width: 100%;
   margin-top: 13px;
@@ -842,10 +784,6 @@ main {
   opacity: 0.6;
 }
 
-/* =========================
-   GALERIA VAZIA
-========================= */
-
 .empty-gallery {
   padding: 60px 20px;
   border: 2px dashed #d8dde2;
@@ -866,10 +804,6 @@ main {
   color: #7b8794;
   font-size: 14px;
 }
-
-/* =========================
-   MODAIS
-========================= */
 
 .overlay {
   position: fixed;
@@ -946,10 +880,6 @@ main {
   color: #566573;
   font-size: 12px;
 }
-
-/* =========================
-   LEITOR DE TEXTO
-========================= */
 
 .text-reader {
   margin-top: 20px;
@@ -1072,10 +1002,6 @@ main {
   text-align: left;
 }
 
-/* =========================
-   DELETE
-========================= */
-
 .delete-button {
   width: 100%;
   margin-top: 8px;
@@ -1125,10 +1051,6 @@ main {
   text-align: left;
   cursor: pointer;
 }
-
-/* =========================
-   ALERTA DO ALARME
-========================= */
 
 .alarm-overlay {
   position: fixed;
@@ -1203,10 +1125,6 @@ main {
   opacity: 0.85;
 }
 
-/* =========================
-   ANIMAÇÃO
-========================= */
-
 @keyframes alarmAppear {
   from {
     opacity: 0;
@@ -1218,10 +1136,6 @@ main {
     transform: scale(1);
   }
 }
-
-/* =========================
-   RESULTADO IA
-========================= */
 
 .ai-result {
   margin-top: 24px;
@@ -1263,10 +1177,6 @@ main {
 .review-section li:last-child {
   margin-bottom: 0;
 }
-
-/* =========================
-   RESPONSIVIDADE
-========================= */
 
 @media (max-width: 600px) {
 
@@ -1368,9 +1278,6 @@ main {
     grid-template-columns: 1fr;
   }
 }
-
-
-/* CAMERA JOVI */
 
 .camera-app {
   width: 100%;
@@ -1624,9 +1531,6 @@ main {
     padding-bottom: max(18px, env(safe-area-inset-bottom));
   }
 }
-
-
-/* CAMERA JOVI */
 
 .camera-app {
   width: 100%;
@@ -1897,9 +1801,6 @@ main {
     padding-bottom: 12px;
   }
 }
-
-
-/* AJUSTES VISUAIS DA CAMERA */
 
 .camera-app {
   background: #080808;
@@ -2362,8 +2263,6 @@ main {
   color: white;
 }
 
-
-/* Fundo mais escuro quando o formulário estiver aberto */
 .camera-visor:has(.camera-formulario)::after {
   content: "";
   position: absolute;
@@ -2373,7 +2272,6 @@ main {
   pointer-events: none;
 }
 
-/* Caixa menor no canto inferior direito */
 .camera-formulario {
   position: absolute;
   z-index: 6;
@@ -2394,7 +2292,6 @@ main {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.55);
 }
 
-/* Campos mais compactos */
 .alarme-form {
   display: flex;
   flex-direction: column;
@@ -2421,12 +2318,10 @@ main {
   cursor: pointer;
 }
 
-/* O campo de texto também continua editável */
 .alarme-form input[type="text"] {
   cursor: text;
 }
 
-/* Dias da semana */
 .alarme-form .days-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2446,7 +2341,6 @@ main {
   cursor: pointer;
 }
 
-/* Botões alinhados e com a mesma altura */
 .alarme-form .alarm-actions {
   display: flex;
   align-items: stretch;
@@ -2473,7 +2367,6 @@ main {
   transition: filter 0.2s, transform 0.2s;
 }
 
-/* Efeito ao passar o mouse */
 .alarme-form input:not([type="checkbox"]):hover,
 .alarme-form select:hover {
   border-color: #ffd400;
@@ -2489,7 +2382,6 @@ main {
   cursor: pointer;
 }
 
-/* Destaque ao clicar ou navegar pelo teclado */
 .alarme-form input:focus,
 .alarme-form select:focus,
 .alarme-form button:focus-visible {
@@ -2497,8 +2389,6 @@ main {
   outline-offset: 1px;
 }
 
-
-/* Pequeno ajuste para o formulário caber melhor */
 .camera-formulario {
   padding: 7px;
   max-height: 80%;
@@ -2526,8 +2416,6 @@ main {
   padding: 4px 2px;
 }
 
-
-
 .camera-formulario {
   background: transparent;
   border: none;
@@ -2542,7 +2430,6 @@ main {
   box-shadow: none;
   outline: none;
 }
-
 
 .camera-galeria {
   overflow: hidden;

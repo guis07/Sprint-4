@@ -1,8 +1,8 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
+import { Buffer } from "node:buffer";
 import resumo from "./api/resumo.js";
 
-// Na Vercel a pasta /api roda sozinha. Este plugin faz o mesmo no "npm run dev".
 function apiLocal() {
   return {
     name: "api-local",
@@ -21,6 +21,7 @@ function apiLocal() {
           res.statusCode = codigo;
           return res;
         };
+
         res.json = (dados) => {
           res.setHeader("Content-Type", "application/json");
           res.end(JSON.stringify(dados));

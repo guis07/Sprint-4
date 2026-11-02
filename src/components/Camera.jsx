@@ -166,7 +166,7 @@ function Camera({ onAdicionarAlarme, pastas = [] }) {
             className="camera-alarme-botao"
             onClick={() => setMostrarAlarme(true)}
           >
-            ⏰ Criar alarme
+            Criar alarme
           </button>
         )}
 

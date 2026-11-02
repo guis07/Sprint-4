@@ -21,7 +21,7 @@ function AlertaAlarme({ alarme, onFechar }) {
   return (
     <div className="alarm-overlay">
       <div className="alarm-alert">
-        <div className="alarm-icon-large">🔔</div>
+        <div className="alarm-icon-large"></div>
 
         <span className="section-label">LEMBRETE</span>
 
@@ -30,10 +30,10 @@ function AlertaAlarme({ alarme, onFechar }) {
         <p className="alarm-message">Está na hora do seu lembrete!</p>
 
         <div className="alarm-details">
-          <div>📅 {alarme.data}</div>
-          <div>⏰ {alarme.horario}</div>
-          {alarme.pasta && <div>📁 {alarme.pasta}</div>}
-          {alarme.som && <div>🔊 {alarme.som}</div>}
+          <div>{alarme.data}</div>
+          <div>{alarme.horario}</div>
+          {alarme.pasta && <div>{alarme.pasta}</div>}
+          {alarme.som && <div>{alarme.som}</div>}
         </div>
 
         <button className="alarm-dismiss-button" onClick={onFechar}>

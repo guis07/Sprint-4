@@ -1,5 +1,3 @@
-
-/* A moldura existe somente nas páginas que usam LayoutCelular */
 .phone-page {
   min-height: 100vh;
   box-sizing: border-box;
@@ -58,7 +56,6 @@
   background: #283653;
 }
 
-/* Cabeçalho dentro do aplicativo */
 .phone-screen > header {
   flex-shrink: 0;
   width: 100%;
@@ -75,7 +72,6 @@
   gap: 12px;
 }
 
-/* Área de conteúdo */
 .phone-content {
   flex: 1;
   min-height: 0;
@@ -93,7 +89,6 @@
   box-sizing: border-box;
 }
 
-/* Câmera e galeria */
 .phone-content .scan-section,
 .phone-content .gallery-section {
   width: 100%;
@@ -124,7 +119,6 @@
   color: #f5c542;
 }
 
-/* Seleção de imagem */
 .phone-content .camera-upload {
   min-height: 230px;
   padding: 14px;
@@ -152,7 +146,6 @@
   object-fit: contain;
 }
 
-/* Botões */
 .phone-content .focus-button,
 .phone-content .alarm-button,
 .phone-content .create-alarm-button,
@@ -170,7 +163,6 @@
   background: #ffda70;
 }
 
-/* Formulário de alarme */
 .phone-content .alarme-form {
   width: 100%;
   padding: 14px;
@@ -240,7 +232,6 @@
   color: white;
 }
 
-/* Cartões da galeria */
 .phone-content .gallery-grid,
 .phone-content .folders-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -294,7 +285,6 @@
   color: #f5c542;
 }
 
-/* Outras áreas do aplicativo */
 .phone-content .ai-area,
 .phone-content .ai-result,
 .phone-content .text-reader,
@@ -304,7 +294,6 @@
   color: white;
 }
 
-/* Janelas da galeria */
 .phone-content .folder-modal,
 .phone-content .image-modal {
   max-width: 100%;
@@ -314,7 +303,6 @@
   color: white;
 }
 
-/* Rodapé dentro da moldura */
 .phone-screen > footer {
   flex-shrink: 0;
   width: 100%;
@@ -329,7 +317,6 @@
   font-size: 10px;
 }
 
-/* Em telas pequenas, o aplicativo ocupa a tela inteira */
 @media (max-width: 600px) {
   .phone-page {
     min-height: 100vh;
